@@ -1,0 +1,109 @@
+// This arduino project enables you to display a number on SSD with a particular distance input.
+// if the front distance is less than 20 cm, it displays 0.
+// if the front distance is more than 20 but less than 40 cm, it displays 1.
+// if the front distance is more than 40 cm, it displays 2.
+
+
+// naming the ultrasonic sensor. 
+#include <HCSR04.h> 
+
+//defining the pin of the ultrasonic sensor of Echo.
+#define Echo  12 
+//defining the pin of the ultrasonic sensor of Trigger.
+#define Trig  11 
+
+//  Initial Front distance.
+int Front_D = 0; 
+
+// Maximum distance to obstacle. (CAN BE CHANGED ACCORDING TO PRIORITY)
+int Max_D = 20; 
+
+// naming the seven segment display's 8 LED's
+const int A = 2; 
+const int B = 3; 
+const int C = 4; 
+const int D = 5; 
+const int E = 6; 
+const int F = 7; 
+const int G = 8; 
+const int DP = 9; 
+
+// defining the Ultrasonic Sensor
+UltraSonicDistanceSensor distanceSensor(Trig, Echo); 
+
+void setup() { 
+  Serial.begin(9600);
+
+  pinMode(A, OUTPUT); 
+  pinMode(B, OUTPUT); 
+  pinMode(C, OUTPUT); 
+  pinMode(D, OUTPUT); 
+  pinMode(E, OUTPUT); 
+  pinMode(F, OUTPUT); 
+  pinMode(G, OUTPUT);
+  pinMode(DP, OUTPUT);
+}
+
+// code for the 8 LEDs to display 2
+void two(){
+  digitalWrite(A, LOW);
+  digitalWrite(B, LOW);
+  digitalWrite(C, HIGH);
+  digitalWrite(D, LOW);
+  digitalWrite(E, LOW);
+  digitalWrite(F, HIGH);
+  digitalWrite(G, LOW);
+  digitalWrite(DP, HIGH);
+}
+
+// code for the 8 LEDs to display 1
+void One(){ 
+  digitalWrite(A,HIGH); 
+  digitalWrite(B,LOW);
+  digitalWrite(C,LOW); 
+  digitalWrite(D,HIGH); 
+  digitalWrite(E,HIGH); 
+  digitalWrite(F,HIGH); 
+  digitalWrite(G,HIGH); 
+  digitalWrite(DP,HIGH); 
+}
+
+// code for the 8 LEDs to display 0
+void Zero(){ 
+  digitalWrite(A, LOW); 
+  digitalWrite(B, LOW); 
+  digitalWrite(C, LOW); 
+  digitalWrite(D, LOW); 
+  digitalWrite(E, LOW); 
+  digitalWrite(F, LOW); 
+  digitalWrite(G, HIGH); 
+  digitalWrite(DP, HIGH); 
+}
+
+// getting distance using the Ultrasonic Sensor
+void Get_D(){ 
+  Front_D = distanceSensor.measureDistanceCm();     
+    delay(10);
+}
+
+void loop() {
+  // getting distance from ultrasonic sensor
+  Get_D(); 
+  // if Front distance has an obstacle
+  if (Front_D < 20) 
+  {
+    // display 0
+    Zero(); 
+  }
+  // If front distance is greater than 20 cm, less than 40 cm
+  else { 
+    // display 1
+    One(); 
+  }
+  // If front distance is greater than 40 cm
+  if (Front_D > 40) 
+  {
+    // display 2
+    two();
+  }
+}
