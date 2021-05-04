@@ -1,0 +1,79 @@
+// This code enables you to control 3 LEDs and a buzzer using your voice or terminal inputs using Bluetooth
+
+
+// defining the pins of the LEDs and Buzzer
+int GREEN = 4;
+int YELLOW = 3;
+int RED = 5;
+const int buzzer = 6;
+
+void setup() {
+  Serial.begin(9600);
+  // setting up LEDs and Buzzer as Outputs
+  pinMode(GREEN,OUTPUT);
+  pinMode(YELLOW,OUTPUT);
+  pinMode(RED,OUTPUT);
+  pinMode(buzzer, OUTPUT);  
+
+}
+
+
+char c;
+String voice;
+
+void loop() {
+  if (Serial.available()>0)
+  {
+    voice="";
+    voice=Serial.readString();
+    Serial.print(voice+'\n');
+  }
+
+  // if voice input is Green
+  if(voice=="green")
+  {
+  // Green glows
+    digitalWrite(GREEN,HIGH);
+    // If voice input is Green off
+  } else if(voice=="green off")
+  {
+  // green does not glow  
+    digitalWrite(GREEN,LOW);
+  }
+  // if voice input is Yellow
+    if(voice=="yellow")
+  {
+    // yellow glow
+    digitalWrite(YELLOW,HIGH);
+    // if voice input is Yellow off
+  } else if(voice=="yellow off")
+  {
+    // yellow does not glow
+    digitalWrite(YELLOW,LOW);
+  }
+
+  // if voice input is Red.
+  if(voice=="red")
+  {
+    // Red glows
+    digitalWrite(RED,HIGH);
+    // if voice input is Red off
+  } else if(voice=="red off")
+  {
+    // red does not glow
+    digitalWrite(RED,LOW);
+  }
+// if voice input is Buzzer ON
+  if(voice=="buzzer on")
+  {
+  //  buzzer buzzes
+    digitalWrite(buzzer, HIGH);
+    // if voice input is Buzzer off
+  } else if(voice=="buzzer off");
+  {
+    // Buzzer stops Buzzing
+    digitalWrite(buzzer, LOW);
+  }
+
+  
+}
